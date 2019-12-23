@@ -56,7 +56,7 @@ DPClonedFragment >> cloneName: aString [
 
 { #category : #accessing }
 DPClonedFragment >> codeText [
-	^ members anyOne codeText
+	^ members anyOne  codeText
 ]
 
 { #category : #merge }
