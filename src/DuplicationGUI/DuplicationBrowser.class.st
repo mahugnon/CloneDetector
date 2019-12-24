@@ -32,15 +32,15 @@ DuplicationBrowser class >> title [
 
 { #category : #initialization }
 DuplicationBrowser >> initializePresenter [
-  entityPanel whenSelectedItemChangedDo: [:selection |  model computeDuplicationWith: selection ]
+  entityPanel whenSelectionChangedDo: [:selection |  model computeDuplicationWith: selection selectedItem ]
 ]
 
 { #category : #initialization }
-DuplicationBrowser >> initializeWidgets [ 
- model := DuplicationBrowserModel new.
+DuplicationBrowser >> initializeWidgets [
+  model := DuplicationBrowserModel new.
   entityPanel := self newList.
   entityPanel items: {model mooseModelFunctions}.
-  fragmentLocationPanel := self newText.
+  fragmentLocationPanel := self instantiate: DuplicationBrowserRoassalView.
+  fragmentLocationPanel model: model.
   sourceCodePanel := self newText
-
 ]
