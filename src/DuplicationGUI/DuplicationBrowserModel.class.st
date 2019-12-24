@@ -5,7 +5,8 @@ Class {
 		'mooseModel',
 		'duplicationFragments',
 		'duplicationView',
-		'selectedFragmentLocation'
+		'selectedFragmentLocation',
+		'duplicationBrowser'
 	],
 	#category : #DuplicationGUI
 }
@@ -18,6 +19,11 @@ DuplicationBrowserModel >> computeDuplicationWith: aCollection [
            minNumberOfCharacters: 75;
            cleaner: DPFourDCleaner new)) fragments.
   duplicationView updateView
+]
+
+{ #category : #accessing }
+DuplicationBrowserModel >> duplicationBrowser: anObject [
+  duplicationBrowser := anObject
 ]
 
 { #category : #accessing }
@@ -40,6 +46,11 @@ DuplicationBrowserModel >> duplicationView: anObject [
 	duplicationView := anObject
 ]
 
+{ #category : #api }
+DuplicationBrowserModel >> fragmentText [
+  ^selectedFragmentLocation codeText
+]
+
 { #category : #initialization }
 DuplicationBrowserModel >> initialize [
   super initialize.
@@ -55,5 +66,5 @@ DuplicationBrowserModel >> mooseModelFunctions [
 { #category : #accessing }
 DuplicationBrowserModel >> selectedFragmentLocation: anObject [
   selectedFragmentLocation := anObject.
-  self halt
+  duplicationBrowser updateCode
 ]

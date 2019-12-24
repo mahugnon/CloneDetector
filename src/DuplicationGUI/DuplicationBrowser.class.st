@@ -14,8 +14,10 @@ Class {
 DuplicationBrowser class >> defaultSpec [
   ^SpBoxLayout newHorizontal
      add: #entityPanel;
-     add: #fragmentLocationPanel;
-     add: #sourceCodePanel;
+     add: (SpPanedLayout newHorizontal
+           add: #fragmentLocationPanel;
+           add: #sourceCodePanel;
+           yourself);
      yourself
 ]
 
@@ -38,9 +40,15 @@ DuplicationBrowser >> initializePresenter [
 { #category : #initialization }
 DuplicationBrowser >> initializeWidgets [
   model := DuplicationBrowserModel new.
+  model duplicationBrowser: self.
   entityPanel := self newList.
   entityPanel items: {model mooseModelFunctions}.
   fragmentLocationPanel := self instantiate: DuplicationBrowserRoassalView.
   fragmentLocationPanel model: model.
   sourceCodePanel := self newText
+]
+
+{ #category : #updating }
+DuplicationBrowser >> updateCode [
+  sourceCodePanel text: model fragmentText
 ]
