@@ -13,11 +13,10 @@ Class {
 { #category : #specs }
 DuplicationBrowser class >> defaultSpec [
   ^SpBoxLayout newHorizontal
-     add: #entityPanel;
-     add: (SpPanedLayout newHorizontal
-           add: #fragmentLocationPanel;
-           add: #sourceCodePanel;
-           yourself);
+     add: #entityPanel withConstraints: [ :constraints | constraints width: 200];
+     add: #fragmentLocationPanel ;
+     add: #sourceCodePanel withConstraints: [ :constraints | constraints width: 400];
+
      yourself
 ]
 

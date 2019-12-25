@@ -27,7 +27,10 @@ DuplicationBrowserRoassalView >> drawDuplicationDiagramOn: aView [
   RTNest new for: es add: [:group :each |  group addAll: (RTBox new
                  fillColor: Color veryLightGray;
                  elementsOn: each members).
-        group @ onclick.
+        group @ onclick @ (RTShowLabel new
+                 labelledInteraction: (RTLabeled new text: [:el |  'entité: ' , el entity name , String cr , 'Ligne debut: ' , el startLine printString , String cr , '  Ligne fin: ' , el endLine printString ]);
+                 top;
+                 yourself).
         RTGridLayout new
            gapSize: 5;
            applyOn: group ].
@@ -35,7 +38,10 @@ DuplicationBrowserRoassalView >> drawDuplicationDiagramOn: aView [
      gapSize: 10;
      applyOn: es.
   es @ (RTShowLabel new
-           color: Color red;
+           labelledInteraction: (RTLabeled new text: [:el |  String streamContents: [:st |  st << 'Duplication détecté dans: '.
+                          el locationsOfCloneClass asOrderedCollection do: [:entity |  st
+                                   << entity name;
+                                   << String cr ] ] ]);
            top;
            yourself).
   ^aView
