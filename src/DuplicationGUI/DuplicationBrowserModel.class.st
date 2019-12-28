@@ -48,7 +48,21 @@ DuplicationBrowserModel >> duplicationView: anObject [
 
 { #category : #api }
 DuplicationBrowserModel >> fragmentText [
-  ^selectedFragmentLocation codeText
+  | source before beforeString after afterString textToRender |
+  source := selectedFragmentLocation entitySourceCode lines.
+  before := source select: [:l |  (source indexOf: l) < selectedFragmentLocation startLine ].
+  beforeString := String streamContents: [:stream |  before do: [:line |  stream
+                 << line;
+                 cr ] ].
+  after := source select: [:l |  (source indexOf: l) > selectedFragmentLocation endLine ].
+  afterString := String streamContents: [:stream |  after do: [:line |  stream
+                 << line;
+                 cr ] ].
+  textToRender := Text new.
+  textToRender append: beforeString.
+  textToRender append: (Text string: selectedFragmentLocation codeText attributes: {(TextColor new color: Color red)}).
+  textToRender append: afterString.
+  ^textToRender
 ]
 
 { #category : #initialization }
