@@ -37,7 +37,7 @@ DuplicationBrowserRoassalView >> drawDuplicationDiagramOn: aView [
   RTGridLayout new
      gapSize: 10;
      applyOn: es.
-  es @ (RTShowLabel new
+  es @ (DPFragmentClick new model: model) @ (RTShowLabel new
            labelledInteraction: (RTLabeled new text: [:el |  String streamContents: [:st |  st << 'Duplication détecté dans: '.
                           el locationsOfCloneClass asOrderedCollection do: [:entity |  st
                                    << entity name;

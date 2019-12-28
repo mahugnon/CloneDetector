@@ -53,19 +53,24 @@ DuplicationBrowserModel >> fragmentAnchorName [
 
 { #category : #api }
 DuplicationBrowserModel >> fragmentText [
+  ^self fragmentText: selectedFragmentLocation
+]
+
+{ #category : #api }
+DuplicationBrowserModel >> fragmentText: aFragmentLocation [
   | source before beforeString after afterString textToRender |
-  source := selectedFragmentLocation entitySourceCode lines.
-  before := source select: [:l |  (source indexOf: l) < selectedFragmentLocation startLine ].
+  source := aFragmentLocation entitySourceCode lines.
+  before := source select: [:l |  (source indexOf: l) < aFragmentLocation startLine ].
   beforeString := String streamContents: [:stream |  before do: [:line |  stream
                  << line;
                  cr ] ].
-  after := source select: [:l |  (source indexOf: l) > selectedFragmentLocation endLine ].
+  after := source select: [:l |  (source indexOf: l) > aFragmentLocation endLine ].
   afterString := String streamContents: [:stream |  after do: [:line |  stream
                  << line;
                  cr ] ].
   textToRender := Text new.
   textToRender append: beforeString.
-  textToRender append: (Text string: selectedFragmentLocation codeText attributes: {(TextColor new color: Color red)}).
+  textToRender append: (Text string: aFragmentLocation codeText attributes: {(TextColor new color: Color red)}).
   textToRender append: afterString.
   ^textToRender
 ]
