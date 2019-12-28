@@ -16,10 +16,6 @@ DuplicationBrowser class >> defaultSpec [
   ^SpBoxLayout newHorizontal
      add: #entityPanel withConstraints: [:constraints |  constraints width: 200 ];
      add: #fragmentLocationPanel;
-     add: (SpBoxLayout newVertical
-           add: #fragmentFileName withConstraints: [:constraints |  constraints height: self toolbarHeight ];
-           add: #sourceCodePanel;
-           yourself) withConstraints: [:constraints |  constraints width: 400 ];
      yourself
 ]
 

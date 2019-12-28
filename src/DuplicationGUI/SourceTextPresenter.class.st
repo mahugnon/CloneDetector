@@ -2,7 +2,8 @@ Class {
 	#name : #SourceTextPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'sourceText'
+		'sourceText',
+		'location'
 	],
 	#category : #DuplicationGUI
 }
@@ -23,7 +24,17 @@ SourceTextPresenter >> initializeWidgets [
   sourceText := self newText
 ]
 
+{ #category : #TOREMOVE }
+SourceTextPresenter >> location: aString [
+  location := aString
+]
+
 { #category : #accessing }
 SourceTextPresenter >> text: aText [
   sourceText text: aText
+]
+
+{ #category : #TOREMOVE }
+SourceTextPresenter >> title [
+  ^location
 ]

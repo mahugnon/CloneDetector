@@ -21,5 +21,6 @@ DPFragmentClick >> model: aDuplicationBrowserModel [
 DPFragmentClick >> openTextPresenters: aFragment [
   aFragment members do: [:each |  SourceTextPresenter new
            text: (model fragmentText: each);
+           location: each entity mooseName;
            openWithSpec ]
 ]
