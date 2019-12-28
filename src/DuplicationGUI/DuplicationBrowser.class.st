@@ -5,7 +5,8 @@ Class {
 		'entityPanel',
 		'fragmentLocationPanel',
 		'sourceCodePanel',
-		'model'
+		'model',
+		'fragmentFileName'
 	],
 	#category : #DuplicationGUI
 }
@@ -13,10 +14,12 @@ Class {
 { #category : #specs }
 DuplicationBrowser class >> defaultSpec [
   ^SpBoxLayout newHorizontal
-     add: #entityPanel withConstraints: [ :constraints | constraints width: 200];
-     add: #fragmentLocationPanel ;
-     add: #sourceCodePanel withConstraints: [ :constraints | constraints width: 400];
-
+     add: #entityPanel withConstraints: [:constraints |  constraints width: 200 ];
+     add: #fragmentLocationPanel;
+     add: (SpBoxLayout newVertical
+           add: #fragmentFileName withConstraints: [:constraints |  constraints height: self toolbarHeight ];
+           add: #sourceCodePanel;
+           yourself) withConstraints: [:constraints |  constraints width: 400 ];
      yourself
 ]
 
@@ -44,10 +47,12 @@ DuplicationBrowser >> initializeWidgets [
   entityPanel items: {model mooseModelFunctions}.
   fragmentLocationPanel := self instantiate: DuplicationBrowserRoassalView.
   fragmentLocationPanel model: model.
-  sourceCodePanel := self newText
+  sourceCodePanel := self newText.
+  fragmentFileName := self newButton
 ]
 
 { #category : #updating }
 DuplicationBrowser >> updateCode [
-  sourceCodePanel text: model fragmentText
+  sourceCodePanel text: model fragmentText.
+  fragmentFileName label: model fragmentAnchorName
 ]

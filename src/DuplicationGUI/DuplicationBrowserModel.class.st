@@ -46,6 +46,11 @@ DuplicationBrowserModel >> duplicationView: anObject [
 	duplicationView := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+DuplicationBrowserModel >> fragmentAnchorName [
+  ^selectedFragmentLocation entity mooseName
+]
+
 { #category : #api }
 DuplicationBrowserModel >> fragmentText [
   | source before beforeString after afterString textToRender |
