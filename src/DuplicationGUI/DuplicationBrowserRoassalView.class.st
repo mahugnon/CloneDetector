@@ -25,11 +25,10 @@ DuplicationBrowserRoassalView >> drawDuplicationDiagramOn: aView [
      borderColor: Color gray) elementsOn: model duplicationFragments.
   aView addAll: es.
   RTNest new for: es add: [:group :each |  group addAll: (RTBox new
-                 fillColor: Color veryLightGray;
+                 fillColor: [:elt |  model colorMap at: elt codeText stringhash ifAbsent: [ Color veryLightGray ] ];
                  elementsOn: each members).
-        group @ onclick @ (RTShowLabel new
-                 labelledInteraction: (RTLabeled new text: [:el |  'entité: ' , el entity name , String cr , 'Ligne debut: ' , el startLine printString , String cr , '  Ligne fin: ' , el endLine printString ]);
-                 top;
+        group @ onclick @ (RTPopup new
+                 text: [:el |  'entité: ' , el entity name , String cr , 'Ligne debut: ' , el startLine printString , String cr , '  Ligne fin: ' , el endLine printString , String cr , 'Taux : ' , (el endLine - el startLine + 1) asString , ' sur:  ' , el codeText size asString ];
                  yourself).
         RTGridLayout new
            gapSize: 5;
@@ -37,12 +36,11 @@ DuplicationBrowserRoassalView >> drawDuplicationDiagramOn: aView [
   RTGridLayout new
      gapSize: 10;
      applyOn: es.
-  es @ (DPFragmentClick new model: model) @ (RTShowLabel new
-           labelledInteraction: (RTLabeled new text: [:el |  String streamContents: [:st |  st << 'Duplication détecté dans: '.
-                          el locationsOfCloneClass asOrderedCollection do: [:entity |  st
-                                   << entity name;
-                                   << String cr ] ] ]);
-           top;
+  es @ (DPFragmentClick new model: model) @ (RTPopup new
+           text: [:el |  String streamContents: [:st |  st << 'Duplication détecté dans: '.
+                    el locationsOfCloneClass asOrderedCollection do: [:entity |  st
+                             << entity name;
+                             << String cr ] ] ];
            yourself).
   ^aView
 ]

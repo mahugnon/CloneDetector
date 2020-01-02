@@ -8,6 +8,9 @@ Class {
 		'model',
 		'fragmentFileName'
 	],
+	#classInstVars : [
+		'colorMap'
+	],
 	#category : #DuplicationGUI
 }
 

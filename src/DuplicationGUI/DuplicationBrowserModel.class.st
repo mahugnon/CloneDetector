@@ -6,10 +6,22 @@ Class {
 		'duplicationFragments',
 		'duplicationView',
 		'selectedFragmentLocation',
-		'duplicationBrowser'
+		'duplicationBrowser',
+		'colorMap'
 	],
 	#category : #DuplicationGUI
 }
+
+{ #category : #api }
+DuplicationBrowserModel >> addFragment: anObject color: aColor [
+  colorMap at: anObject codeText stringhash put: aColor.
+  duplicationView updateView
+]
+
+{ #category : #accessing }
+DuplicationBrowserModel >> colorMap [
+  ^colorMap
+]
 
 { #category : #initialization }
 DuplicationBrowserModel >> computeDuplicationWith: aCollection [
@@ -79,7 +91,8 @@ DuplicationBrowserModel >> fragmentText: aFragmentLocation [
 DuplicationBrowserModel >> initialize [
   super initialize.
   mooseModel := MooseModel root first.
-  duplicationFragments := OrderedCollection new
+  duplicationFragments := OrderedCollection new.
+  colorMap := OrderedDictionary new
 ]
 
 { #category : #'as yet unclassified' }
