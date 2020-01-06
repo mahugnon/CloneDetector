@@ -120,7 +120,7 @@ DuplicationBrowserModel >> fragmentText: aFragmentLocation [
 { #category : #initialization }
 DuplicationBrowserModel >> initialize [
   super initialize.
-  mooseModel := MooseModel root first.
+  mooseModel := MooseModel root second.
   duplicationFragments := OrderedCollection new.
   colorMap := OrderedDictionary new
 ]

@@ -51,9 +51,9 @@ DuplicationBrowserRoassalView >> drawDuplicationDiagramOn1: aView [
 
 { #category : #initialization }
 DuplicationBrowserRoassalView >> drawDuplicationDiagramOn: aView [
-  | es onclick |
-  onclick := DPFragmentLocationClick new model: model.
-  aView @ RTDraggableView @ RTZoomableView.
+  | es |
+  aView @ RTDraggableView.
+  aView @ RTZoomableView.
   es := (RTBox new
      fillColor: Color white;
      borderColor: Color gray) elementsOn: model duplicationEntities keys.
@@ -61,8 +61,9 @@ DuplicationBrowserRoassalView >> drawDuplicationDiagramOn: aView [
   RTNest new for: es add: [:group :each |  group addAll: (RTBox new
                  fillColor: [:elt |  elt clonedFragment = model focusClonedFragment ifTrue: [ Color red ] ifFalse: [ Color veryLightGray ] ];
                  elementsOn: (model duplicationEntities at: each)).
-        group @ onclick @ (RTPopup new
-                 text: [:el |  'entité: ' , el entity name , String cr , 'Ligne debut: ' , el startLine printString , String cr , '  Ligne fin: ' , el endLine printString , String cr , 'Taux : ' , (el endLine - el startLine + 1) asString , 'lignes sur:  ' , el entitySourceCode lineCount asString ];
+        group @ (DPFragmentLocationClick new model: model).
+        group @ (RTPopup new
+                 text: [:el |  'entité: ' , el entity name , String cr , 'Ligne debut: ' , el startLine printString , String cr , '  Ligne fin: ' , el endLine printString , String cr , 'Taux : ' , (el endLine - el startLine + 1) asString , ' lignes sur:  ' , el entitySourceCode lineCount asString ];
                  yourself).
         RTGridLayout new
            gapSize: 5;
@@ -70,6 +71,10 @@ DuplicationBrowserRoassalView >> drawDuplicationDiagramOn: aView [
   RTGridLayout new
      gapSize: 10;
      applyOn: es.
+  es @ RTDraggable.
+  es @ (RTPopup new
+           text: [:entity |  'nom: ' , entity name , String cr , 'Loc: ' , entity numberOfLinesOfCode asString , String cr , 'Nbr clone: ' , (model duplicationEntities at: entity) size asString ];
+           yourself).
   RTScrollBarBuilder new
      view: aView;
      fillColor: (Color lightGray alpha: 0.2);
