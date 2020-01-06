@@ -15,7 +15,8 @@ Class {
 		'endLine',
 		'entity',
 		'clonedFragment',
-		'fileAnchor'
+		'fileAnchor',
+		'codeText'
 	],
 	#category : #'Duplication-Entities'
 }
@@ -60,11 +61,11 @@ DPFragmentLocation >> clonedFragment: anObject [
 ]
 
 { #category : #accessing }
-DPFragmentLocation >> codeText [ 
-	| text|
-	text := self entitySourceCode.
-	^ text copyFrom: (text intervalOfLine: (self startLine)) first to: (text intervalOfLine: self endLine) last.
-	
+DPFragmentLocation >> codeText [
+  | text |
+  codeText ifNil: [ text := self entitySourceCode.
+        codeText := text copyFrom: (text intervalOfLine: self startLine) first to: (text intervalOfLine: self endLine) last ].
+  ^codeText
 ]
 
 { #category : #merge }

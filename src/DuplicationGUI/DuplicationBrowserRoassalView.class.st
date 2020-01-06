@@ -16,7 +16,7 @@ DuplicationBrowserRoassalView class >> defaultSpec [
 ]
 
 { #category : #initialization }
-DuplicationBrowserRoassalView >> drawDuplicationDiagramOn: aView [
+DuplicationBrowserRoassalView >> drawDuplicationDiagramOn1: aView [
   | es onclick |
   onclick := DPFragmentLocationClick new model: model.
   aView @ RTDraggableView @ RTZoomableView.
@@ -25,10 +25,10 @@ DuplicationBrowserRoassalView >> drawDuplicationDiagramOn: aView [
      borderColor: Color gray) elementsOn: model duplicationFragments.
   aView addAll: es.
   RTNest new for: es add: [:group :each |  group addAll: (RTBox new
-                 fillColor: [:elt |  model colorMap at: elt codeText stringhash ifAbsent: [ Color veryLightGray ] ];
+                 fillColor: [:elt |  model colorMap at: elt entity ifAbsent: [ Color veryLightGray ] ];
                  elementsOn: each members).
         group @ onclick @ (RTPopup new
-                 text: [:el |  'entité: ' , el entity name , String cr , 'Ligne debut: ' , el startLine printString , String cr , '  Ligne fin: ' , el endLine printString , String cr , 'Taux : ' , (el endLine - el startLine + 1) asString , ' sur:  ' , el codeText size asString ];
+                 text: [:el |  'entité: ' , el entity name , String cr , 'Ligne debut: ' , el startLine printString , String cr , '  Ligne fin: ' , el endLine printString , String cr , 'Taux : ' , (el endLine - el startLine + 1) asString , 'lignes sur:  ' , el entitySourceCode lineCount asString ];
                  yourself).
         RTGridLayout new
            gapSize: 5;
@@ -42,6 +42,38 @@ DuplicationBrowserRoassalView >> drawDuplicationDiagramOn: aView [
                              << entity name;
                              << String cr ] ] ];
            yourself).
+  RTScrollBarBuilder new
+     view: aView;
+     fillColor: (Color lightGray alpha: 0.2);
+     build.
+  ^aView
+]
+
+{ #category : #initialization }
+DuplicationBrowserRoassalView >> drawDuplicationDiagramOn: aView [
+  | es onclick |
+  onclick := DPFragmentLocationClick new model: model.
+  aView @ RTDraggableView @ RTZoomableView.
+  es := (RTBox new
+     fillColor: Color white;
+     borderColor: Color gray) elementsOn: model duplicationEntities keys.
+  aView addAll: es.
+  RTNest new for: es add: [:group :each |  group addAll: (RTBox new
+                 fillColor: [:elt |  elt clonedFragment = model focusClonedFragment ifTrue: [ Color red ] ifFalse: [ Color veryLightGray ] ];
+                 elementsOn: (model duplicationEntities at: each)).
+        group @ onclick @ (RTPopup new
+                 text: [:el |  'entité: ' , el entity name , String cr , 'Ligne debut: ' , el startLine printString , String cr , '  Ligne fin: ' , el endLine printString , String cr , 'Taux : ' , (el endLine - el startLine + 1) asString , 'lignes sur:  ' , el entitySourceCode lineCount asString ];
+                 yourself).
+        RTGridLayout new
+           gapSize: 5;
+           applyOn: group ].
+  RTGridLayout new
+     gapSize: 10;
+     applyOn: es.
+  RTScrollBarBuilder new
+     view: aView;
+     fillColor: (Color lightGray alpha: 0.2);
+     build.
   ^aView
 ]
 

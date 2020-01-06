@@ -7,14 +7,16 @@ Class {
 		'duplicationView',
 		'selectedFragmentLocation',
 		'duplicationBrowser',
-		'colorMap'
+		'colorMap',
+		'focusClonedFragment',
+		'duplicationEntities'
 	],
 	#category : #DuplicationGUI
 }
 
 { #category : #api }
 DuplicationBrowserModel >> addFragment: anObject color: aColor [
-  colorMap at: anObject codeText stringhash put: aColor.
+  colorMap at: anObject entity put: aColor.
   duplicationView updateView
 ]
 
@@ -26,16 +28,24 @@ DuplicationBrowserModel >> colorMap [
 { #category : #initialization }
 DuplicationBrowserModel >> computeDuplicationWith: aCollection [
   duplicationFragments := (DPDetector runOn: aCollection parametrizedWith: (DPParameters new
-           minNumberOfLines: 15;
+           minNumberOfLines: 150;
            frequency: 2;
            minNumberOfCharacters: 75;
-           cleaner: DPFourDCleaner new)) fragments.
-  duplicationView updateView
+           cleaner: DPPWBCleaner new)) fragments.
+  self refreshRoassal
 ]
 
 { #category : #accessing }
 DuplicationBrowserModel >> duplicationBrowser: anObject [
   duplicationBrowser := anObject
+]
+
+{ #category : #initialization }
+DuplicationBrowserModel >> duplicationEntities [
+  | dpLocations |
+  dpLocations := self duplicationLocations.
+  duplicationEntities := ((duplicationFragments flatCollectAsSet: #locationsOfCloneClass) collect: [:e |  e -> (dpLocations select: [:loc |  loc entity = e ]) ]) asOrderedDictionary.
+  ^duplicationEntities
 ]
 
 { #category : #accessing }
@@ -48,6 +58,11 @@ DuplicationBrowserModel >> duplicationFragments: anObject [
 	duplicationFragments := anObject
 ]
 
+{ #category : #initialization }
+DuplicationBrowserModel >> duplicationLocations [
+  ^duplicationFragments flatCollectAsSet: #members
+]
+
 { #category : #accessing }
 DuplicationBrowserModel >> duplicationView [
 	^ duplicationView
@@ -56,6 +71,21 @@ DuplicationBrowserModel >> duplicationView [
 { #category : #accessing }
 DuplicationBrowserModel >> duplicationView: anObject [
 	duplicationView := anObject
+]
+
+{ #category : #api }
+DuplicationBrowserModel >> duplicationsWithLocation: aFamixPWBFunction [
+  ^dpLocations select: [:each |  each entity = aFamixPWBFunction ]
+]
+
+{ #category : #accessing }
+DuplicationBrowserModel >> focusClonedFragment [
+  ^focusClonedFragment
+]
+
+{ #category : #accessing }
+DuplicationBrowserModel >> focusClonedFragment: aDPClonedFragment [ 
+	focusClonedFragment := aDPClonedFragment
 ]
 
 { #category : #'as yet unclassified' }
@@ -98,6 +128,27 @@ DuplicationBrowserModel >> initialize [
 { #category : #'as yet unclassified' }
 DuplicationBrowserModel >> mooseModelFunctions [
   ^mooseModel allWithType: FamixPWBFunction
+]
+
+{ #category : #api }
+DuplicationBrowserModel >> openTextPresenters [
+  focusClonedFragment members do: [:each |  SourceTextPresenter new
+           text: (self fragmentText: each);
+           location: each entity mooseName;
+           openWithSpec ]
+]
+
+{ #category : #'as yet unclassified' }
+DuplicationBrowserModel >> openTextPresenters: aFragment [
+  aFragment members do: [:each |  SourceTextPresenter new
+           text: (self fragmentText: each);
+           location: each entity mooseName;
+           openWithSpec ]
+]
+
+{ #category : #initialization }
+DuplicationBrowserModel >> refreshRoassal [
+  duplicationView updateView
 ]
 
 { #category : #accessing }
