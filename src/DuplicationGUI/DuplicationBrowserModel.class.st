@@ -44,7 +44,7 @@ DuplicationBrowserModel >> duplicationBrowser: anObject [
 DuplicationBrowserModel >> duplicationEntities [
   | dpLocations |
   dpLocations := self duplicationLocations.
-  duplicationEntities := ((duplicationFragments flatCollectAsSet: #locationsOfCloneClass) collect: [:e |  e -> (dpLocations select: [:loc |  loc entity = e ]) ]) asOrderedDictionary.
+  duplicationEntities := (((dpLocations groupedBy: #startLine) collect: [:dpl |  dpl groupedBy: #entity ]) values flatCollect: [:elt |  elt values flatCollect: [:each |  each anyOne clonedFragment members ] ]) groupedBy: #entity.
   ^duplicationEntities
 ]
 
@@ -71,11 +71,6 @@ DuplicationBrowserModel >> duplicationView [
 { #category : #accessing }
 DuplicationBrowserModel >> duplicationView: anObject [
 	duplicationView := anObject
-]
-
-{ #category : #api }
-DuplicationBrowserModel >> duplicationsWithLocation: aFamixPWBFunction [
-  ^dpLocations select: [:each |  each entity = aFamixPWBFunction ]
 ]
 
 { #category : #accessing }
