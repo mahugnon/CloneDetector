@@ -44,8 +44,9 @@ DuplicationBrowserModel >> duplicationBrowser: anObject [
 DuplicationBrowserModel >> duplicationEntities [
   | dpLocations |
   dpLocations := self duplicationLocations.
-  duplicationEntities := (((dpLocations groupedBy: #startLine) collect: [:dpl |  dpl groupedBy: #entity ]) values flatCollect: [:elt |  elt values flatCollect: [:each |  each anyOne clonedFragment members ] ]) groupedBy: #entity.
-  ^duplicationEntities
+  duplicationEntities := self duplicationEntities groupedBy: #entity.
+  
+  "(((dpLocations groupedBy: #startLine) collect: [:dpl |  dpl groupedBy: #entity ]) values flatCollect: [:elt |  elt values flatCollect: [:each |  each anyOne clonedFragment members ] ]) groupedBy: #entity."^duplicationEntities
 ]
 
 { #category : #accessing }
