@@ -14,12 +14,34 @@ Class {
 	#category : #DuplicationGUI
 }
 
+{ #category : #private }
+DuplicationBrowser class >> createIcon [
+  ThemeIcons compile: 'callTreeContent
+	^ ''' , (Base64MimeConverter mimeEncode: '/Users/honore/Documents/Resources/duplicate.png' asFileReference binaryReadStream) contents , '''' classified: 'DuplicationGUI'.
+  ThemeIcons compile: 'duplication
+	^ icons
+			at: #''duplication''
+			ifAbsentPut:[ Form fromBinaryStream: self callTreeContent base64Decoded asByteArray readStream ]' classified: 'DuplicationGUI'
+]
+
 { #category : #specs }
 DuplicationBrowser class >> defaultSpec [
   ^SpBoxLayout newHorizontal
      add: #entityPanel withConstraints: [:constraints |  constraints width: 200 ];
      add: #fragmentLocationPanel;
      yourself
+]
+
+{ #category : #'as yet unclassified' }
+DuplicationBrowser class >> duplicationView: aBuilder [
+  < worldMenu>
+  self createIcon.
+  (aBuilder item: #Duplication)
+     order: 10;
+     help: 'Lauch call Powerbuider methods call tree. You should install a PowerbuilderMooseModel in the image';
+     label: 'PWB Duplication';
+     iconName: #duplication;
+     action: [ self runMe ]
 ]
 
 { #category : #examples }
@@ -47,7 +69,8 @@ DuplicationBrowser >> initializeWidgets [
   fragmentLocationPanel := self instantiate: DuplicationBrowserRoassalView.
   fragmentLocationPanel model: model.
   sourceCodePanel := self newText.
-  fragmentFileName := self newButton
+  fragmentFileName := self newButton.
+  self iconNamed: #duplication
 ]
 
 { #category : #updating }
