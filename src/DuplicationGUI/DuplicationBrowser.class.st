@@ -16,12 +16,24 @@ Class {
 
 { #category : #private }
 DuplicationBrowser class >> createIcon [
-  ThemeIcons compile: 'callTreeContent
-	^ ''' , (Base64MimeConverter mimeEncode: '/Users/honore/Documents/Resources/duplicate.png' asFileReference binaryReadStream) contents , '''' classified: 'DuplicationGUI'.
-  ThemeIcons compile: 'duplication
+	ThemeIcons
+		compile:
+			'duplicationIcon
+	^ '''
+				,
+					(Base64MimeConverter
+						mimeEncode:
+							'/Users/honore/Documents/Resources/duplicate.png' asFileReference
+								binaryReadStream) contents , ''''
+		classified: '*DuplicationGUI'.
+	ThemeIcons
+		compile:
+			'duplication
 	^ icons
 			at: #''duplication''
-			ifAbsentPut:[ Form fromBinaryStream: self callTreeContent base64Decoded asByteArray readStream ]' classified: 'DuplicationGUI'
+			ifAbsentPut:[ Form fromBinaryStream: self duplicationIcon base64Decoded asByteArray readStream ]'
+		classified: 'DuplicationGUI'.
+	Smalltalk ui icons duplication
 ]
 
 { #category : #specs }
@@ -34,14 +46,15 @@ DuplicationBrowser class >> defaultSpec [
 
 { #category : #'as yet unclassified' }
 DuplicationBrowser class >> duplicationView: aBuilder [
-  < worldMenu>
-  self createIcon.
-  (aBuilder item: #Duplication)
-     order: 10;
-     help: 'Lauch call Powerbuider methods call tree. You should install a PowerbuilderMooseModel in the image';
-     label: 'PWB Duplication';
-     iconName: #duplication;
-     action: [ self runMe ]
+	<worldMenu>
+	self createIcon.
+	(aBuilder item: #Duplication)
+		order: 10;
+		help:
+			'Lauch call Powerbuider methods call tree. You should install a PowerbuilderMooseModel in the image';
+		label: 'PWB Duplication';
+		iconName: #duplication;
+		action: [ self runMe ]
 ]
 
 { #category : #examples }
