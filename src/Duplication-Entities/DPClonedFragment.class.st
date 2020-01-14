@@ -105,24 +105,13 @@ DPClonedFragment >> members: anObject [
 
 { #category : #merge }
 DPClonedFragment >> mergeWith: anotherFragment dupSys: aDupSys [
-	"I try to merge with another fragment. If I fail I return false to signal the merge was not finished."
-
-	(self mergeableWith: anotherFragment)
-		ifFalse: [ ^ true ].
-	self members
-		do: [ :member | 
-			(anotherFragment getMemberCorrespondingTo: member)
-				ifNotNil: [ :anotherMember | 
-					member startLine: (member startLine min: anotherMember startLine).
-					member endLine: (member endLine max: anotherMember endLine).
-					anotherFragment remove: anotherMember ] ].
-	^ anotherFragment hasMembers
-		ifFalse: [ 
-			aDupSys fragments
-				remove: anotherFragment
-				ifAbsent: [ ('Duplication - Fragment not found: ' , anotherFragment asString) synCrLog ].
-			true ]
-		ifTrue: [ false ]
+  "I try to merge with another fragment. If I fail I return false to signal the merge was not finished."
+  (self mergeableWith: anotherFragment) ifFalse: [ ^true ].
+  self members do: [:member |  (anotherFragment getMemberCorrespondingTo: member) ifNotNil: [:anotherMember |  member startLine: (member startLine min: anotherMember startLine).
+              member endLine: (member endLine max: anotherMember endLine).
+              anotherFragment remove: anotherMember ] ].
+  ^anotherFragment hasMembers ifFalse: [ aDupSys fragments remove: anotherFragment ifAbsent: [  ].
+        true ] ifTrue: [ false ]
 ]
 
 { #category : #testing }

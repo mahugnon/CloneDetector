@@ -44,7 +44,7 @@ DuplicationBrowserModel >> duplicationBrowser: anObject [
 DuplicationBrowserModel >> duplicationEntities [
   | dpLocations |
   dpLocations := self duplicationLocations.
-  duplicationEntities := self duplicationEntities groupedBy: #entity.
+  duplicationEntities := dpLocations groupedBy: #entity.
   
   "(((dpLocations groupedBy: #startLine) collect: [:dpl |  dpl groupedBy: #entity ]) values flatCollect: [:elt |  elt values flatCollect: [:each |  each anyOne clonedFragment members ] ]) groupedBy: #entity."^duplicationEntities
 ]
@@ -116,7 +116,7 @@ DuplicationBrowserModel >> fragmentText: aFragmentLocation [
 { #category : #initialization }
 DuplicationBrowserModel >> initialize [
   super initialize.
-  mooseModel := MooseModel root second.
+  mooseModel := MooseModel root first.
   duplicationFragments := OrderedCollection new.
   colorMap := OrderedDictionary new
 ]

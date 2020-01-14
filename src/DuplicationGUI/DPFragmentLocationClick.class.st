@@ -17,7 +17,10 @@ DPFragmentLocationClick >> initializeElement1: element [
 DPFragmentLocationClick >> initializeElement: element [
   element announcer when: TRMouseClick do: [ model focusClonedFragment: element model clonedFragment.
         model refreshRoassal.
-        model openTextPresenters ]
+        SourceTextPresenter new
+           text: (model fragmentText: element model);
+           location: element model entity mooseName;
+           openWithSpec ]
 ]
 
 { #category : #accessing }

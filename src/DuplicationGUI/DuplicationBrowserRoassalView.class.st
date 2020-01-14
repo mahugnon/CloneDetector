@@ -73,12 +73,8 @@ DuplicationBrowserRoassalView >> drawDuplicationDiagramOn: aView [
      applyOn: es.
   es @ RTDraggable.
   es @ (RTPopup new
-           text: [:entity |  'nom: ' , entity name , String cr , 'Loc: ' , entity numberOfLinesOfCode asString , String cr , 'Nbr clone: ' , (model duplicationEntities at: entity) size asString ];
+           text: [:entity |  'nom: ' , entity name , String cr , 'Loc: ' , entity numberOfLinesOfCode asString , String cr , 'Nbr clone: ' , entity cloneLocations size asString ];
            yourself).
-  RTScrollBarBuilder new
-     view: aView;
-     fillColor: (Color lightGray alpha: 0.2);
-     build.
   ^aView
 ]
 
