@@ -113,3 +113,10 @@ DPDuplicationSystem >> parameters [
 DPDuplicationSystem >> parameters: anObject [
 	parameters := anObject
 ]
+
+{ #category : #initialization }
+DPDuplicationSystem >> setColors [
+	| colors |
+	colors := Color wheel: fragments size.
+	1 to: colors size do: [ :iterator | (fragments at: iterator) color: (colors at: iterator) ]
+]

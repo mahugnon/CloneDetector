@@ -68,6 +68,11 @@ DPFragmentLocation >> codeText [
   ^codeText
 ]
 
+{ #category : #accessing }
+DPFragmentLocation >> color [
+	^ clonedFragment color
+]
+
 { #category : #merge }
 DPFragmentLocation >> contiguousWith: anotherLocation [
 	^ self entity = anotherLocation entity

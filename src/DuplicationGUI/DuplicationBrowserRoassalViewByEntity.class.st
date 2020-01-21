@@ -11,8 +11,7 @@ DuplicationBrowserRoassalViewByEntity >> drawDuplicationDiagramOn: aView [
 	aView @ RTZoomableView.
 	es := (RTBox new
 		fillColor: Color white;
-		borderColor: [ :elt | model colorFor: elt ])
-		elementsOn: model duplicationEntities keys.
+		borderColor: Color gray) elementsOn: model duplicationEntities keys.
 	aView addAll: es.
 	RTNest new
 		for: es
@@ -22,8 +21,8 @@ DuplicationBrowserRoassalViewByEntity >> drawDuplicationDiagramOn: aView [
 					(RTBox new
 						fillColor: [ :elt | 
 							elt clonedFragment = model focusClonedFragment
-								ifTrue: [ Color red ]
-								ifFalse: [ Color veryLightGray ] ];
+								ifTrue: [ Color black]
+								ifFalse: [ elt color ] ];
 						elementsOn: (model duplicationEntities at: each)).
 			group @ (DPFragmentLocationClick new model: model).
 			group

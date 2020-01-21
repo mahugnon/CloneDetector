@@ -10,7 +10,8 @@ Class {
 	#superclass : #MooseEntity,
 	#instVars : [
 		'members',
-		'cloneName'
+		'cloneName',
+		'color'
 	],
 	#category : #'Duplication-Entities'
 }
@@ -57,6 +58,16 @@ DPClonedFragment >> cloneName: aString [
 { #category : #accessing }
 DPClonedFragment >> codeText [
 	^ members anyOne  codeText
+]
+
+{ #category : #accessing }
+DPClonedFragment >> color [
+	^ color
+]
+
+{ #category : #accessing }
+DPClonedFragment >> color: anObject [
+	color := anObject
 ]
 
 { #category : #merge }
