@@ -7,7 +7,7 @@ Class {
 		'validate',
 		'model'
 	],
-	#category : #DuplicationGUI
+	#category : #'DuplicationGUI-core'
 }
 
 { #category : #initialization }

@@ -5,7 +5,7 @@ Class {
 		'sourceText',
 		'location'
 	],
-	#category : #DuplicationGUI
+	#category : #'DuplicationGUI-core'
 }
 
 { #category : #specs }

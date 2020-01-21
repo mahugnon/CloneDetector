@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'model'
 	],
-	#category : #DuplicationGUI
+	#category : #'DuplicationGUI-core'
 }
 
 { #category : #hooks }

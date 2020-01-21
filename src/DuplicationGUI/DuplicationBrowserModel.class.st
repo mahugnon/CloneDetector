@@ -9,15 +9,24 @@ Class {
 		'duplicationBrowser',
 		'colorMap',
 		'focusClonedFragment',
-		'duplicationEntities'
+		'duplicationEntities',
+		'entityColors'
 	],
-	#category : #DuplicationGUI
+	#category : #'DuplicationGUI-model'
 }
 
 { #category : #api }
 DuplicationBrowserModel >> addFragment: anObject color: aColor [
   colorMap at: anObject entity put: aColor.
   duplicationView updateView
+]
+
+{ #category : #private }
+DuplicationBrowserModel >> colorFor: anObject [
+	self initializeColors.
+	^ entityColors keys
+		detect: [ :each | (entityColors at: each) includes: anObject ]
+		ifNone: [ Color gray ]
 ]
 
 { #category : #accessing }
@@ -27,12 +36,8 @@ DuplicationBrowserModel >> colorMap [
 
 { #category : #initialization }
 DuplicationBrowserModel >> computeDuplicationWith: aCollection [
-  duplicationFragments := (DPDetector runOn: aCollection parametrizedWith: (DPParameters new
-           minNumberOfLines: 150;
-           frequency: 2;
-           minNumberOfCharacters: 75;
-           cleaner: DPPWBCleaner new)) fragments.
-  self refreshRoassal
+	duplicationFragments := QueryDuplication runOn: aCollection.
+	self refreshRoassal
 ]
 
 { #category : #accessing }
@@ -42,11 +47,13 @@ DuplicationBrowserModel >> duplicationBrowser: anObject [
 
 { #category : #initialization }
 DuplicationBrowserModel >> duplicationEntities [
-  | dpLocations |
-  dpLocations := self duplicationLocations.
-  duplicationEntities := dpLocations groupedBy: #entity.
-  
-  "(((dpLocations groupedBy: #startLine) collect: [:dpl |  dpl groupedBy: #entity ]) values flatCollect: [:elt |  elt values flatCollect: [:each |  each anyOne clonedFragment members ] ]) groupedBy: #entity."^duplicationEntities
+	| dpLocations |
+	dpLocations := self duplicationLocations.
+	duplicationEntities := dpLocations groupedBy: #entity.
+
+
+	"(((dpLocations groupedBy: #startLine) collect: [:dpl |  dpl groupedBy: #entity ]) values flatCollect: [:elt |  elt values flatCollect: [:each |  each anyOne clonedFragment members ] ]) groupedBy: #entity."
+	^ duplicationEntities
 ]
 
 { #category : #accessing }
@@ -119,6 +126,22 @@ DuplicationBrowserModel >> initialize [
   mooseModel := MooseModel root first.
   duplicationFragments := OrderedCollection new.
   colorMap := OrderedDictionary new
+]
+
+{ #category : #initialization }
+DuplicationBrowserModel >> initializeColors [
+	entityColors
+		ifNil: [ | dpgroup |
+			dpgroup := duplicationEntities keys
+				collect: [ :elt | 
+					duplicationEntities keys
+						select: [ :each | 
+							(((duplicationEntities at: elt) collect: #clonedFragment)
+								& ((duplicationEntities at: each) collect: #clonedFragment))
+								isNotEmpty ] ].
+			entityColors := Dictionary
+				newFromKeys: (Color wheel: dpgroup size)
+				andValues: dpgroup ]
 ]
 
 { #category : #'as yet unclassified' }

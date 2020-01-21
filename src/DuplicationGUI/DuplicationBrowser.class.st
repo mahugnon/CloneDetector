@@ -11,7 +11,7 @@ Class {
 	#classInstVars : [
 		'colorMap'
 	],
-	#category : #DuplicationGUI
+	#category : #'DuplicationGUI-core'
 }
 
 { #category : #private }
@@ -75,15 +75,16 @@ DuplicationBrowser >> initializePresenter [
 
 { #category : #initialization }
 DuplicationBrowser >> initializeWidgets [
-  model := DuplicationBrowserModel new.
-  model duplicationBrowser: self.
-  entityPanel := self newList.
-  entityPanel items: {model mooseModelFunctions}.
-  fragmentLocationPanel := self instantiate: DuplicationBrowserRoassalView.
-  fragmentLocationPanel model: model.
-  sourceCodePanel := self newText.
-  fragmentFileName := self newButton.
-  self iconNamed: #duplication
+	model := DuplicationBrowserModel new.
+	model duplicationBrowser: self.
+	entityPanel := self newList.
+	entityPanel items: {model mooseModelFunctions}.
+	fragmentLocationPanel := self
+		instantiate: DuplicationBrowserRoassalViewByEntity.
+	fragmentLocationPanel model: model.
+	sourceCodePanel := self newText.
+	fragmentFileName := self newButton.
+	self iconNamed: #duplication
 ]
 
 { #category : #updating }
