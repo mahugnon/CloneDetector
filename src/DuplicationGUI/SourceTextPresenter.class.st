@@ -24,7 +24,7 @@ SourceTextPresenter >> initializeWidgets [
   sourceText := self newText
 ]
 
-{ #category : #TOREMOVE }
+{ #category : #initialization }
 SourceTextPresenter >> location: aString [
   location := aString
 ]

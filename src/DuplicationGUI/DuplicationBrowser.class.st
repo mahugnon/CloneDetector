@@ -38,10 +38,15 @@ DuplicationBrowser class >> createIcon [
 
 { #category : #specs }
 DuplicationBrowser class >> defaultSpec [
-  ^SpBoxLayout newHorizontal
-     add: #entityPanel withConstraints: [:constraints |  constraints width: 200 ];
-     add: #fragmentLocationPanel;
-     yourself
+	^ SpPanedLayout newVertical
+		add:
+			(SpBoxLayout newHorizontal
+				add: #entityPanel
+					withConstraints: [ :constraints | constraints width: 200 ];
+				add: #fragmentLocationPanel;
+				yourself);
+		add: #sourceCodePanel;
+		yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -82,7 +87,7 @@ DuplicationBrowser >> initializeWidgets [
 	fragmentLocationPanel := self
 		instantiate: DuplicationBrowserRoassalViewByEntity.
 	fragmentLocationPanel model: model.
-	sourceCodePanel := self newText.
+	sourceCodePanel := self instantiate: SourceTextPresenter.
 	fragmentFileName := self newButton.
 	self iconNamed: #duplication
 ]
@@ -91,4 +96,9 @@ DuplicationBrowser >> initializeWidgets [
 DuplicationBrowser >> updateCode [
   sourceCodePanel text: model fragmentText.
   fragmentFileName label: model fragmentAnchorName
+]
+
+{ #category : #api }
+DuplicationBrowser >> updateSouceCode [
+	self shouldBeImplemented.
 ]

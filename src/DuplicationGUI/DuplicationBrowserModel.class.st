@@ -29,11 +29,6 @@ DuplicationBrowserModel >> colorFor: anObject [
 		ifNone: [ Color gray ]
 ]
 
-{ #category : #accessing }
-DuplicationBrowserModel >> colorMap [
-  ^colorMap
-]
-
 { #category : #initialization }
 DuplicationBrowserModel >> computeDuplicationWith: aCollection [
 	duplicationFragments := QueryDuplication runOn: aCollection.
@@ -83,12 +78,7 @@ DuplicationBrowserModel >> duplicationView: anObject [
 
 { #category : #accessing }
 DuplicationBrowserModel >> focusClonedFragment [
-  ^focusClonedFragment
-]
-
-{ #category : #accessing }
-DuplicationBrowserModel >> focusClonedFragment: aDPClonedFragment [ 
-	focusClonedFragment := aDPClonedFragment
+	^ selectedFragmentLocation clonedFragment
 ]
 
 { #category : #'as yet unclassified' }
@@ -122,10 +112,11 @@ DuplicationBrowserModel >> fragmentText: aFragmentLocation [
 
 { #category : #initialization }
 DuplicationBrowserModel >> initialize [
-  super initialize.
-  mooseModel := MooseModel root first.
-  duplicationFragments := OrderedCollection new.
-  colorMap := OrderedDictionary new
+	super initialize.
+	mooseModel := MooseModel root first.
+	duplicationFragments := OrderedCollection new.
+	colorMap := OrderedDictionary new.
+	selectedFragmentLocation := DPFragmentLocation new
 ]
 
 { #category : #initialization }
@@ -162,7 +153,8 @@ DuplicationBrowserModel >> refreshRoassal [
 { #category : #accessing }
 DuplicationBrowserModel >> selectedFragmentLocation: anObject [
   selectedFragmentLocation := anObject.
-  duplicationBrowser updateCode
+  duplicationBrowser updateCode.
+
 ]
 
 { #category : #api }

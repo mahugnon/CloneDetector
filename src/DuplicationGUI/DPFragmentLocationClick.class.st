@@ -15,12 +15,10 @@ DPFragmentLocationClick >> initializeElement1: element [
 
 { #category : #hooks }
 DPFragmentLocationClick >> initializeElement: element [
-  element announcer when: TRMouseClick do: [ model focusClonedFragment: element model clonedFragment.
-        model refreshRoassal.
-        SourceTextPresenter new
-           text: (model fragmentText: element model);
-           location: element model entity mooseName;
-           openWithSpec ]
+	element announcer
+		when: TRMouseClick
+		do: [ model selectedFragmentLocation: element model.
+			model refreshRoassal ]
 ]
 
 { #category : #accessing }
