@@ -157,6 +157,11 @@ DuplicationBrowserModel >> selectedFragmentLocation: anObject [
 
 ]
 
+{ #category : #'as yet unclassified' }
+DuplicationBrowserModel >> selectedFragmentLocationName [
+	^ selectedFragmentLocation name
+]
+
 { #category : #api }
 DuplicationBrowserModel >> updateFragmentColorFor: aFamixPWBFunction [
 	| fragment |

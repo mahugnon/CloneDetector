@@ -5,8 +5,7 @@ Class {
 		'entityPanel',
 		'fragmentLocationPanel',
 		'sourceCodePanel',
-		'model',
-		'fragmentFileName'
+		'model'
 	],
 	#classInstVars : [
 		'colorMap'
@@ -88,17 +87,12 @@ DuplicationBrowser >> initializeWidgets [
 		instantiate: DuplicationBrowserRoassalViewByEntity.
 	fragmentLocationPanel model: model.
 	sourceCodePanel := self instantiate: SourceTextPresenter.
-	fragmentFileName := self newButton.
 	self iconNamed: #duplication
 ]
 
 { #category : #updating }
 DuplicationBrowser >> updateCode [
-  sourceCodePanel text: model fragmentText.
-  fragmentFileName label: model fragmentAnchorName
-]
-
-{ #category : #api }
-DuplicationBrowser >> updateSouceCode [
-	self shouldBeImplemented.
+	sourceCodePanel text: model fragmentText.
+	sourceCodePanel entityName: model selectedFragmentLocationName.
+	"fragmentFileName label: model fragmentAnchorName"
 ]
