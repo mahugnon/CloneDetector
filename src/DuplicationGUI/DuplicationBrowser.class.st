@@ -3,9 +3,9 @@ Class {
 	#superclass : #SpPresenter,
 	#instVars : [
 		'entityPanel',
-		'fragmentLocationPanel',
 		'sourceCodePanel',
-		'model'
+		'model',
+		'duplicationResultPanel'
 	],
 	#classInstVars : [
 		'colorMap'
@@ -83,9 +83,8 @@ DuplicationBrowser >> initializeWidgets [
 	model duplicationBrowser: self.
 	entityPanel := self newList.
 	entityPanel items: {model mooseModelFunctions}.
-	fragmentLocationPanel := self
-		instantiate: DuplicationBrowserRoassalViewByEntity.
-	fragmentLocationPanel model: model.
+	duplicationResultPanel := self instantiate: model defaultRoassalView.
+	duplicationResultPanel model: model.
 	sourceCodePanel := self instantiate: SourceTextPresenter.
 	self iconNamed: #duplication
 ]

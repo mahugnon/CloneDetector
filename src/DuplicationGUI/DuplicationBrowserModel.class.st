@@ -35,6 +35,11 @@ DuplicationBrowserModel >> computeDuplicationWith: aCollection [
 	self refreshRoassal
 ]
 
+{ #category : #api }
+DuplicationBrowserModel >> defaultRoassalView [
+	^ DuplicationBrowserRoassalViewByEntity
+]
+
 { #category : #accessing }
 DuplicationBrowserModel >> duplicationBrowser: anObject [
   duplicationBrowser := anObject
