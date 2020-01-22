@@ -4,6 +4,11 @@ Class {
 	#category : #'DuplicationGUI-roassal'
 }
 
+{ #category : #'as yet unclassified' }
+DuplicationBrowserRoassalViewByDuplication class >> viewName [
+	^ 'View by cloned fragments'
+]
+
 { #category : #initialization }
 DuplicationBrowserRoassalViewByDuplication >> drawDuplicationDiagramOn: aView [
 	| es onclick |

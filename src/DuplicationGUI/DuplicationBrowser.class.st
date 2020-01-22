@@ -5,7 +5,8 @@ Class {
 		'entityPanel',
 		'sourceCodePanel',
 		'model',
-		'duplicationResultPanel'
+		'duplicationResultPanel',
+		'duplicationViewSelector'
 	],
 	#classInstVars : [
 		'colorMap'
@@ -41,8 +42,13 @@ DuplicationBrowser class >> defaultSpec [
 		add:
 			(SpBoxLayout newHorizontal
 				add: #entityPanel
-					withConstraints: [ :constraints | constraints width: 200 ];
-				add: #fragmentLocationPanel;
+					withConstraints: [ :constraints | constraints width: 300 ];
+				add:
+					(SpBoxLayout newVertical
+						add: #duplicationViewSelector
+							withConstraints: [ :constraints | constraints height: self toolbarHeight ];
+						add: #duplicationResultPanel;
+						yourself);
 				yourself);
 		add: #sourceCodePanel;
 		yourself
@@ -86,7 +92,12 @@ DuplicationBrowser >> initializeWidgets [
 	duplicationResultPanel := self instantiate: model defaultRoassalView.
 	duplicationResultPanel model: model.
 	sourceCodePanel := self instantiate: SourceTextPresenter.
-	self iconNamed: #duplication
+	self iconNamed: #duplication.
+	duplicationViewSelector := self newDropList.
+	duplicationViewSelector
+		items: DuplicationBrowserRoassalView views;
+		help: 'Select the roassal visualization to use';
+		display: [ :item | item viewName ]
 ]
 
 { #category : #updating }

@@ -15,6 +15,16 @@ DuplicationBrowserRoassalView class >> defaultSpec [
      yourself
 ]
 
+{ #category : #'as yet unclassified' }
+DuplicationBrowserRoassalView class >> viewName [
+	^ self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+DuplicationBrowserRoassalView class >> views [
+	^ self subclasses
+]
+
 { #category : #initialization }
 DuplicationBrowserRoassalView >> drawDuplicationDiagramOn: aView [
 	^ self subclassResponsibility

@@ -4,6 +4,11 @@ Class {
 	#category : #'DuplicationGUI-roassal'
 }
 
+{ #category : #'as yet unclassified' }
+DuplicationBrowserRoassalViewByEntity class >> viewName [
+	^ 'View by cloned entities'
+]
+
 { #category : #initialization }
 DuplicationBrowserRoassalViewByEntity >> drawDuplicationDiagramOn: aView [
 	| es |
