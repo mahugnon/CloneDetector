@@ -79,25 +79,50 @@ DuplicationBrowser class >> title [
 ]
 
 { #category : #initialization }
-DuplicationBrowser >> initializePresenter [
-  entityPanel whenSelectionChangedDo: [:selection |  model computeDuplicationWith: selection selectedItem ]
+DuplicationBrowser >> initializeDuplicationResultPanel [
+	duplicationResultPanel := self instantiate: model defaultRoassalView.
+	duplicationResultPanel model: model
 ]
 
 { #category : #initialization }
-DuplicationBrowser >> initializeWidgets [
-	model := DuplicationBrowserModel new.
-	model duplicationBrowser: self.
-	entityPanel := self newList.
-	entityPanel items: {model mooseModelFunctions}.
-	duplicationResultPanel := self instantiate: model defaultRoassalView.
-	duplicationResultPanel model: model.
-	sourceCodePanel := self instantiate: SourceTextPresenter.
-	self iconNamed: #duplication.
+DuplicationBrowser >> initializeDuplicationRoassalViewSelector [
 	duplicationViewSelector := self newDropList.
 	duplicationViewSelector
 		items: DuplicationBrowserRoassalView views;
 		help: 'Select the roassal visualization to use';
 		display: [ :item | item viewName ]
+]
+
+{ #category : #initialization }
+DuplicationBrowser >> initializeEntityPanel [
+	entityPanel := self newList.
+	entityPanel items: {model mooseModelFunctions}
+]
+
+{ #category : #initialization }
+DuplicationBrowser >> initializeModel [
+	model := DuplicationBrowserModel new.
+	model duplicationBrowser: self
+]
+
+{ #category : #initialization }
+DuplicationBrowser >> initializePresenter [
+  entityPanel whenSelectionChangedDo: [:selection |  model computeDuplicationWith: selection selectedItem ]
+]
+
+{ #category : #initialization }
+DuplicationBrowser >> initializeSourceCodePanel [
+	sourceCodePanel := self instantiate: SourceTextPresenter.
+	self iconNamed: #duplication
+]
+
+{ #category : #initialization }
+DuplicationBrowser >> initializeWidgets [
+	self initializeModel.
+	self initializeEntityPanel.
+	self initializeDuplicationResultPanel.
+	self initializeSourceCodePanel.
+	self initializeDuplicationRoassalViewSelector
 ]
 
 { #category : #updating }
