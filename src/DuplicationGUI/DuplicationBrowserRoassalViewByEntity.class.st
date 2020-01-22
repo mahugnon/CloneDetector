@@ -21,8 +21,8 @@ DuplicationBrowserRoassalViewByEntity >> drawDuplicationDiagramOn: aView [
 					(RTBox new
 						fillColor: [ :elt | 
 							elt clonedFragment = model focusClonedFragment
-								ifTrue: [ Color black]
-								ifFalse: [ elt color ] ];
+								ifTrue: [ Color black ]
+								ifFalse: [ model colorFor: elt ] ];
 						elementsOn: (model duplicationEntities at: each)).
 			group @ (DPFragmentLocationClick new model: model).
 			group
@@ -56,5 +56,6 @@ DuplicationBrowserRoassalViewByEntity >> drawDuplicationDiagramOn: aView [
 				text: #name;
 				fontSize: 5;
 				top).
+	es @ (DPFragmentClick new model: model).
 	^ aView
 ]

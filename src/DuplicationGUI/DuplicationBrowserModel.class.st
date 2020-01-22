@@ -10,7 +10,7 @@ Class {
 		'colorMap',
 		'focusClonedFragment',
 		'duplicationEntities',
-		'entityColors'
+		'fragmentColors'
 	],
 	#category : #'DuplicationGUI-model'
 }
@@ -24,8 +24,8 @@ DuplicationBrowserModel >> addFragment: anObject color: aColor [
 { #category : #private }
 DuplicationBrowserModel >> colorFor: anObject [
 	self initializeColors.
-	^ entityColors keys
-		detect: [ :each | (entityColors at: each) includes: anObject ]
+	^ fragmentColors keys
+		detect: [ :each | anObject isMemberOf: (fragmentColors at: each) ]
 		ifNone: [ Color gray ]
 ]
 
@@ -130,18 +130,7 @@ DuplicationBrowserModel >> initialize [
 
 { #category : #initialization }
 DuplicationBrowserModel >> initializeColors [
-	entityColors
-		ifNil: [ | dpgroup |
-			dpgroup := duplicationEntities keys
-				collect: [ :elt | 
-					duplicationEntities keys
-						select: [ :each | 
-							(((duplicationEntities at: elt) collect: #clonedFragment)
-								& ((duplicationEntities at: each) collect: #clonedFragment))
-								isNotEmpty ] ].
-			entityColors := Dictionary
-				newFromKeys: (Color wheel: dpgroup size)
-				andValues: dpgroup ]
+	fragmentColors ifNil: [ fragmentColors := Dictionary new ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -174,4 +163,15 @@ DuplicationBrowserModel >> refreshRoassal [
 DuplicationBrowserModel >> selectedFragmentLocation: anObject [
   selectedFragmentLocation := anObject.
   duplicationBrowser updateCode
+]
+
+{ #category : #api }
+DuplicationBrowserModel >> updateFragmentColorFor: aFamixPWBFunction [
+	| fragment |
+	fragment := (duplicationEntities at: aFamixPWBFunction)
+		collect: #clonedFragment.
+	fragmentColors := OrderedDictionary
+		newFromKeys: (Color wheel: fragment size)
+		andValues: fragment asOrderedCollection.
+	self refreshRoassal
 ]

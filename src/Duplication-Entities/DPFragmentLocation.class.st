@@ -129,6 +129,11 @@ DPFragmentLocation >> includesLocation: aFragmentLocation [
 						and: [ aFragmentLocation endLine between: self startLine and: self endLine ] ] ]
 ]
 
+{ #category : #'class membership' }
+DPFragmentLocation >> isMemberOf: aClonedFragment [
+	^ self clonedFragment = aClonedFragment
+]
+
 { #category : #accessing }
 DPFragmentLocation >> length [
 	^ self endLine - self startLine + 1

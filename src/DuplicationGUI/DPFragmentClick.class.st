@@ -9,7 +9,9 @@ Class {
 
 { #category : #hooks }
 DPFragmentClick >> initializeElement: element [
-  element announcer when: TRMouseClick do: [ model openTextPresenters: element model ]
+	element announcer
+		when: TRMouseClick
+		do: [ model updateFragmentColorFor: element model ]
 ]
 
 { #category : #accessing }
